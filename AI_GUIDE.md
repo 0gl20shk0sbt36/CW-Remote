@@ -1,6 +1,6 @@
-# CodeWhale MCP Server — AI 使用手册
+# CW-Remote — AI 使用手册
 
-> 运行环境：Python 3.11+，依赖通过 `uv sync` 管理（详见 README.md）。
+> 运行环境：Python 3.11+，依赖通过 `uv sync` 管理（详见 GUIDE.md）。
 > MCP 客户端配置：
 > ```json
 > {"servers":{"codeworker":{"command":"uv","args":["run","--directory","/workspace/cw-mcp-server","python3","server.py"],"env":{"CODEWHALE_API_URL":"http://127.0.0.1:7878"}}}}
