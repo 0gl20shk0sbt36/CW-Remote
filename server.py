@@ -22,9 +22,9 @@ from mcp.types import Tool, TextContent
 
 from client import create_client, RuntimeApiClient
 
-# 兼容的 CodeWhale 版本范围（当前锁定版本）
-MIN_CW_VERSION = "0.8.53"
-MAX_CW_VERSION = "0.8.54"
+# 兼容的 CodeWhale 版本范围（实测 0.8.50~0.9.0 均支持）
+MIN_CW_VERSION = "0.8.50"
+MAX_CW_VERSION = "0.9.0"
 AUTO_START_DELAY = 5  # 自动启动后等待秒数
 
 
