@@ -22,8 +22,9 @@ from mcp.types import Tool, TextContent
 
 from client import create_client, RuntimeApiClient
 
-# 兼容的 CodeWhale 版本范围（实测 0.8.50~0.9.0 均支持）
-MIN_CW_VERSION = "0.8.50"
+# 兼容的 CodeWhale 版本范围（仅测试过的版本）
+# 设置 CW_REMOTE_SKIP_VERSION_CHECK=1 跳过检查
+MIN_CW_VERSION = "0.8.53"
 MAX_CW_VERSION = "0.9.0"
 AUTO_START_DELAY = 5  # 自动启动后等待秒数
 
@@ -57,13 +58,21 @@ def _check_version(actual: str) -> str:
 
 async def _ensure_runtime(cw: RuntimeApiClient) -> str:
     """启动时连接 runtime_api，必要时自动启动。返回状态文本。"""
+    skip_check = os.environ.get("CW_REMOTE_SKIP_VERSION_CHECK") == "1"
+
     # 先尝试连接
     for attempt in range(3):
         try:
             info = await cw.runtime_info()
             version = info.get("version", "0.0.0")
             warn = _check_version(version)
-            return f"CodeWhale Runtime API v{version} ({info.get('bind_host','?')}:{info.get('port','?')})  {warn}".strip()
+
+            if warn and not skip_check:
+                return ("❌ " + warn +
+                        "\n   设置 CW_REMOTE_SKIP_VERSION_CHECK=1 可跳过此检查（不保证兼容性）。")
+
+            tag = "✅" if not warn else "⚠️"
+            return f"{tag} CodeWhale Runtime API v{version} ({info.get('bind_host','?')}:{info.get('port','?')})".strip()
         except Exception:
             if attempt < 2:
                 await asyncio.sleep(0.5)
@@ -618,6 +627,8 @@ async def main():
     cw = create_client()
     status = await _ensure_runtime(cw)
     print(f"[cw-mcp-server] {status}", file=sys.stderr)
+    if status.startswith("❌"):
+        sys.exit(1)
     server = Server("codewhale-mcp")
 
     @server.list_tools()

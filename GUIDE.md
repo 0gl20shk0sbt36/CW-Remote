@@ -100,7 +100,8 @@ nohup codewhale-tui serve --http --insecure > /tmp/cw.log 2>&1 &
 [cw-mcp-server] CodeWhale Runtime API v0.8.53 (127.0.0.1:7879)
 ```
 
-兼容版本范围 0.8.50 ~ 0.8.x（低于 0.8.50 或 >= 0.9.0 会输出警告）。
+兼容版本范围 0.8.53 ~ 0.8.x（低于 0.8.53 或 >= 0.9.0 会报错退出）。
+设置环境变量 `CW_REMOTE_SKIP_VERSION_CHECK=1` 跳过此检查（不保证兼容性）。
 如果 Runtime API 未启动，会尝试自动启动
 （需要 `codewhale-tui` 在 PATH 中），失败则报错退出。
 
