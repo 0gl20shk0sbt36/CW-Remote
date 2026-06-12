@@ -80,4 +80,4 @@ cw_thread_get        cw_thread_resume
 
 - Python 3.11+, MCP SDK 1.27+
 - uv 包管理
-- 依赖 CodeWhale v0.8.53 Runtime API
+- 依赖 CodeWhale v0.8.53 ~ v0.8.58 Runtime API（版本不匹配时设置 `CW_REMOTE_SKIP_VERSION_CHECK=1` 可跳过检查）
