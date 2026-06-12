@@ -22,10 +22,10 @@ from mcp.types import Tool, TextContent
 
 from client import create_client, RuntimeApiClient
 
-# 兼容的 CodeWhale 版本范围（仅测试过的版本）
+# 经过测试的 CodeWhale 版本范围（用户测试版 ~ 源码分析版）
 # 设置 CW_REMOTE_SKIP_VERSION_CHECK=1 跳过检查
 MIN_CW_VERSION = "0.8.53"
-MAX_CW_VERSION = "0.9.0"
+MAX_CW_VERSION = "0.8.59"
 AUTO_START_DELAY = 5  # 自动启动后等待秒数
 
 
@@ -51,8 +51,10 @@ def _check_version(actual: str) -> str:
         return (f"⚠️ CodeWhale v{actual} 过低（需要 >= {MIN_CW_VERSION}）。"
                 f"接口可能发生变化，部分工具可能异常。")
     if cur_v >= max_v:
-        return (f"⚠️ CodeWhale v{actual} 过高（本 MCP 服务器最高兼容 < {MAX_CW_VERSION}）。"
-                f"版本不匹配可能导致工具异常。请更新 cw-mcp-server。")
+        max_ok = _parse_version(MAX_CW_VERSION)
+        max_ver = ".".join(str(x) for x in (max_ok[0], max_ok[1], max_ok[2] - 1)) if max_ok[2] > 0 else MAX_CW_VERSION
+        return (f"⚠️ CodeWhale v{actual} 过高（本 MCP 服务器最高兼容 v{max_ver}）。"
+                f"版本不匹配可能导致工具异常。请更新 CW-Remote。")
     return ""
 
 
