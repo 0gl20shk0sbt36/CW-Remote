@@ -9,7 +9,7 @@
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # 2. 进入项目目录
-cd /workspace/cw-mcp-server
+cd /workspace/cw-remote
 
 # 3. 一键安装依赖（uv 自动管理虚拟环境）
 uv sync
@@ -27,7 +27,7 @@ MCP 客户端配置：
   "servers": {
     "codeworker": {
       "command": "uv",
-      "args": ["run", "--directory", "/workspace/cw-mcp-server", "python3", "server.py"],
+      "args": ["run", "--directory", "/workspace/cw-remote", "python3", "server.py"],
       "env": {
         "CODEWHALE_API_URL": "http://127.0.0.1:7878"
       }
